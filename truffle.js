@@ -18,7 +18,8 @@ module.exports = {
   networks: {
   	development: {
   		host: "127.0.0.1",
-  		port: "8545",
+  		port: "7545",  //Ganache GUI is listening on this port
+  		//port: "8545",  //Ganache CLIent is listening on this port
   		network_id: "*"
   	}
   }
