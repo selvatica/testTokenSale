@@ -117,6 +117,7 @@ contract ('TestToken', function(accounts) {
 			return tokenInstance.transferFrom.call(fromAccount, toAccount, 10, { from: spendingAccount });
 		}).then(function(success) {
 			assert.equal(success,true, 'it returns true');
+			//Spending account transfers an amount of 10 from fromAccount to toAccount
 			return tokenInstance.transferFrom(fromAccount, toAccount, 10, { from: spendingAccount });
 
 		}).then(function(receipt) { 
@@ -131,10 +132,10 @@ contract ('TestToken', function(accounts) {
 			return tokenInstance.balanceOf(toAccount);
 		}).then(function(balance) { 
 			assert.equal(balance.toNumber(), 10, 'adds the amount to the receiving account');
-			//the fromAccount is allowed to spend a certain amount from the spendingAccount
+			//the spendingAccount is allowed by the owner(fromAccount) to spend tokens from fromAccount
 			return tokenInstance.allowance(fromAccount, spendingAccount); 
 		}).then(function(allowance) {
-			//
+			//Now we will have 0 amount allowed 
 			assert.equal(allowance.toNumber(), 0, 'deducts the amount from the allowance');
 		})
 	});

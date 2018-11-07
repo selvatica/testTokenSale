@@ -59,8 +59,9 @@ contract TestToken {
 	//Delegate transfer
 
 	//approve:   _spender is account B that will be approved on behalf of account A.. to spend amount _value of tokens
-	function approve(address _spender, uint256 _value) public returns (bool success) {
-		//allowance
+	function approve(address _spender, uint256 _value) public returns(bool success) {
+		//All owner/approver accounts have an array of allowed accounts which are allowed to spend the owner's tokens
+		//allowance[approver or owner of the account][allowed account]
 		allowance[msg.sender][_spender] = _value;
 		//Approve event
 		emit Approval(msg.sender, _spender, _value);
@@ -75,13 +76,14 @@ contract TestToken {
 		require(_value <= balanceOf[_from]);
 		
 		//Require allowance is big enough 
+		//msg.sender says: Hey I want the tokens from you (_from)
 		require(_value <= allowance[_from][msg.sender]);
 		
 		//Change the balanceOf	
 		balanceOf[_from] -= _value;
 		balanceOf[_to] += _value;
 		
-		//update the allowance
+		//update the allowance; The owner/approver(_from) of the account allows the requester (msg.sender) less tokens (_value) to withdraw 
 		allowance[_from][msg.sender] -= _value;
 
 		//Fire Transfer event
