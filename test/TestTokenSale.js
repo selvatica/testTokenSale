@@ -71,8 +71,8 @@ contract ('TestTokenSale', function(accounts) {
 		}).then(function(instance) {	
 			//also get access to TokenSaleInstance
 			TokenSaleInstance = instance;
-			console.log('TokenSaleInstance Adress: ', TokenSaleInstance.address);
-			console.log('TokenInstance Adress: ', TokenInstance.address);
+			//console.log('TokenSaleInstance Adress: ', TokenSaleInstance.address);
+			//console.log('TokenInstance Adress: ', TokenInstance.address);
 			//try to end sale
 			return TokenSaleInstance.endSale({ from: buyer }); //This transaction must fail (buyer != admin). Look at the error
 		}).then(assert.fail).catch(function(error) {
@@ -88,7 +88,7 @@ contract ('TestTokenSale', function(accounts) {
 			//Check that token Price was reset when selfdestruct was called
 			return TokenSaleInstance.tokenPrice();
 		}).then(assert.fail).catch(function(error) {
-			console.log(error.message);
+			//console.log(error.message);
 			assert(error.message.indexOf('not a contract address') >= 0, 'Must call selfdestruct');
 		});
 

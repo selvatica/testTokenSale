@@ -19,7 +19,7 @@ contract TestTokenSale {
 				
 	}
 
-	//pure doesn't do anything
+	//pure is use for functions that do not do anything
 	function multiply(uint x, uint y) internal pure returns (uint z) {
 		require(y == 0 || (z = x * y) / y == x);
 	}
@@ -30,7 +30,7 @@ contract TestTokenSale {
 		//Buy the correct value of tokens
 		// Require that the value (value is METADATA in brackets in test) is equal to tokens
 		//require (msg.value == _numberOfTokens * tokenPrice);
-		require (msg.value ==	multiply(_numberOfTokens,tokenPrice));
+		require (msg.value == multiply(_numberOfTokens,tokenPrice));
 		
 		//Require that the contract has enough tokens
 		require(tokenContract.balanceOf(this) >= _numberOfTokens);
