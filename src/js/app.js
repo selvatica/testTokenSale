@@ -42,6 +42,7 @@ App = {
 	tokenPrice: 1000000000000000,
 	tokensSold: 0,
 	tokensAvailable: 750000,
+	tokensTotal: 750000,
 
 	init: function() {
 		console.log("App initialized...");
@@ -118,22 +119,50 @@ App = {
 				App.account = account;
 				$('#accountAddress').html("Your Account: " + account);
 			}
-		})//.done(function() {
+		})
+			//return	web3.version.getNetwork();
+		//}).then(function(err, netID) {
+		web3.version.getNetwork(function(err, netID) {
+		  switch (netID) {
+		    case "1":
+		    	$('.ethereum-network').html("Main Ethereum Network! Be sure what you're doing!");
+		      console.log('This is mainnet')
+		      break
+		    case "2":
+		      console.log('This is the deprecated Morden test network.')
+		      break
+		    case "3":
+		    	$('.ethereum-network').html("Ropsten Test Network! Your ETH is not real money.");
+		      console.log('This is the ropsten test network.')
+		      break
+		    case "4":
+		    	$('.ethereum-network').html("Rinkeby Test Network! Your ETH is not real money.");
+		      console.log('This is the Rinkeby test network.')
+		      break
+		    case "42":
+		      console.log('This is the Kovan test network.')
+		      break
+		    default:
+		      console.log('This (', netId, ') is an unknown network. Maybe you are using Ganache or probably you need to use Chrome Browser together with MetaMask!')
+		  }
+
+		})
+		//.done(function() {
 		//})
 
-		//Loa token Sale Cntract
+		//Load token Sale Contract
 		App.contracts.TestTokenSale.deployed().then(function(instance) {
 			testTokenSaleInstance = instance;
-			console.log("contract");
 			return testTokenSaleInstance.tokenPrice();
 		}).then(function(price) {
-			console.log("tokenPrice", price.toNumber());
+			//console.log("tokenPrice", price.toNumber());
 			App.tokenPrice = price;
 			$('.token-price').html(web3.fromWei(App.tokenPrice, "ether").toNumber());
 			return testTokenSaleInstance.tokensSold();
 		}).then(function(tokensSold){
 			App.tokensSold = tokensSold.toNumber();
 			$('.tokens-sold').html(App.tokensSold);
+			$('.tokens-total').html(App.tokensTotal);
 			//TokensAvalable is not a function of testTokenSale contract, but only of the testing environment...
 		// 	return testTokenSaleInstance.tokensAvailable();  
 		// }).then(function(tokensAvailable){
@@ -149,7 +178,7 @@ App = {
 				App.tokensAvailable=tokensAvailable.toNumber();
 				$('.tokens-available').html(App.tokensAvailable);
 
-				var progressPercent = (Math.ceil(App.tokensSold) / App.tokensAvailable) *100;
+				var progressPercent = parseFloat((Math.round(App.tokensSold) / App.tokensAvailable) * 100).toFixed(1);
 				$('#progress').css('width', progressPercent + '%');
 				$('.progress-percent').html(progressPercent + '%'); //added by Sven :)
 
@@ -159,14 +188,14 @@ App = {
 			})
 
 		})
-
-		return App.getNetworkVersion();
+		//return App.getNetworkVersion();
 	},
 
 	buyTokens: function() {
 		$('#content').hide();
 		$('#loader').show();
 		var numberOfTokens = $('#numberOfTokens').val();  //Read Input fiels
+		var errorBuy=false;
 		App.contracts.TestTokenSale.deployed().then(function(instance) {
 			return instance.buyTokens(numberOfTokens, {
 					from: App.account, 
@@ -174,40 +203,48 @@ App = {
 					gas: 500000
 			})
 		}).catch(function(error) { 
-			console.log("Not so much tokens available...");
+
+			console.log(error.message);
+			errorBuy=true;
+
 		}).then(function(result) {
-				console.log("Tokens bought...");
+				if(errorBuy) {
+					console.log("Buying of Tokens unsuccessful!");
+					errorBuy=false;
+					App.render();
+				}
+				else {
+					console.log("Congratulations! Tokens successful bought!");
+				}
 				$('form').trigger('reset');
 				//Wait for Sell Event here	
-				//$('#loader').hide();
-				//$('#content').show();
 		})
 	},
 
-	getNetworkVersion: function() {
-		web3.version.getNetwork((err, netId) => {
-		  switch (netId) {
-		    case "1":
-		      console.log('This is mainnet')
-		      break
-		    case "2":
-		      console.log('This is the deprecated Morden test network.')
-		      break
-		    case "3":
-		      console.log('This is the ropsten test network.')
-		      break
-		    case "4":
-		      console.log('This is the Rinkeby test network.')
-		      break
-		    case "42":
-		      console.log('This is the Kovan test network.')
-		      break
-		    default:
-		      console.log('This (', netId, ') is an unknown network. Probably you need to use Chrome Browser together with MetaMask!')
-		  }
-		})
+	// getNetworkVersion: function() {
+	// 	web3.version.getNetwork((err, netId) => {
+	// 	  switch (netId) {
+	// 	    case "1":
+	// 	      console.log('This is mainnet')
+	// 	      break
+	// 	    case "2":
+	// 	      console.log('This is the deprecated Morden test network.')
+	// 	      break
+	// 	    case "3":
+	// 	      console.log('This is the ropsten test network.')
+	// 	      break
+	// 	    case "4":
+	// 	      console.log('This is the Rinkeby test network.')
+	// 	      break
+	// 	    case "42":
+	// 	      console.log('This is the Kovan test network.')
+	// 	      break
+	// 	    default:
+	// 	      console.log('This (', netId, ') is an unknown network. Maybe you are using Ganache or probably you need to use Chrome Browser together with MetaMask!')
+	// 	  }
+	// 	})
 
-	}
+	// }
 }
 
 

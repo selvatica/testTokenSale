@@ -8,6 +8,7 @@
 		<title>Test Token ICO Sale</title>
 		<!-- Bootstrap -->
 		<link href="css/bootstrap.min.css" rel="stylesheet">
+		<link rel="icon" type="image/vnd.microsoft.icon" href="/favicon.ico" sizes="16x16 32x32 64x64">
 
 	</head>
 	<body>
@@ -22,10 +23,10 @@
 					<p class="text-center"> Loading...</p>
 				</div>
 				<div id="content" class="text-container" style="display: none;">
-					<p>Intrducing "Test Token" (TEST)! Token price is <span class="token-price"></span> Ether. You currently have <span class="test-balance"></span>&nbsp;Test.
-
+					<p>Intrducing "Test Token" (TEST)! Token price is <span class="token-price"></span> Ether. You currently have <span class="test-balance"></span>&nbsp;Test tokens.
 					</p>
 					<br/>
+					<p>This is the <span class="ethereum-network"></span> </p>
 					<form onSubmit="App.buyTokens(); return false;" role="form">
 						<div class="form-group">
 							<div class="input-group">
@@ -34,7 +35,6 @@
 								<span class="input-group-btn">
 									<button type="submit" class="btn btn-primary btn-lg">Buy Tokens</button> 
 								</span>
-
 							</div>
 						</div>
 					</form>
@@ -45,7 +45,9 @@
 						</div>
 
 					</div>
-						<p class="text-center"><span class="tokens-sold"></span> / <span class="tokens-available"> </span> tokens sold</p>
+						<p class="text-center"><span class="tokens-sold"></span> tokens of <span class="tokens-total"> </span> tokens sold</p>
+						<hr>
+						<p class="text-center"><span class="tokens-available"> </span> tokens available</p>
 						<hr>
 						<p class="text-center" id="accountAddress"></p>
 				</div>

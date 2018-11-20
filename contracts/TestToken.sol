@@ -1,5 +1,5 @@
-pragma solidity ^0.4.24;
-
+pragma solidity ^0.4.25;
+ 
 contract TestToken {
 	//Name (public variable gives getter and setter functions for free!!)
 	string public name = "TestToken";

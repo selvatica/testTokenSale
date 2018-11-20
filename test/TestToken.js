@@ -52,7 +52,7 @@ contract ('TestToken', function(accounts) {
 		 	assert.equal(success, true, 'it returns true');
 		 	
 		 	//Test for the Transfer function and analyze the receipt.logs
-		 	return tokenInstance.transfer(accounts[1],250000, { from: accounts[0] }); //DOES TRIGGER THE TRANSACTION ! (WITHOUT CALL)
+		 	return tokenInstance.transfer(accounts[1], 250000, { from: accounts[0] }); //DOES TRIGGER THE TRANSACTION ! (WITHOUT CALL)
 		}).then(function(receipt) { //Receipt of Transfer !
 			//console.log(receipt);
 			assert.equal(receipt.logs.length, 1, 'triggers one event');
