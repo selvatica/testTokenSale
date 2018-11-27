@@ -42,6 +42,19 @@ contract TestTokenSale {
 		emit Sell(msg.sender, _numberOfTokens);
 	}
 
+	//function sendEther() public {
+		//require only admin can use this function 
+		//require(msg.sender == admin);
+
+		//Only send if balance > 0
+		//require(address(this).balance > 0);
+
+ 		//######receiver.transfer(address(this).balance);
+ 		//Admin transfers ETH from smart contract to himself.
+		//admin.transfer(address(this).balance);
+
+	//}
+
 	//Ending TestToken sale
 	function endSale() public {
 		//require only admin can use this function 

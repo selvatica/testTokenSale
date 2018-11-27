@@ -1,6 +1,7 @@
 var TestToken = artifacts.require("./TestToken.sol");
 var TestTokenSale = artifacts.require("./TestTokenSale.sol");
 
+
 contract ('TestTokenSale', function(accounts) { 
 	var TokenInstance;
 	var TokenSaleInstance;
@@ -8,6 +9,7 @@ contract ('TestTokenSale', function(accounts) {
 	var buyer = accounts[1];
 	var tokenPrice= 1000000000000000; // in wei  0.001 ether
 	var tokensAvailable =750000;
+	var etherAvailable = 1000000000000000000; //in wei 1 ETH
 	var numberOfTokens;
 
 	it('initializes the contract with correct values', function() {
@@ -63,6 +65,23 @@ contract ('TestTokenSale', function(accounts) {
 		});
 	});
 	
+	// it('sends ETH from contract account to admin account', function() {
+	// 	return TestTokenSale.deployed().then(function(instance) {
+	//  	TokenSaleInstance = instance;
+	//  	//Send some Ether to Smart Contract as initial value for testing
+	//  	return admin.transfer(TokenSaleInstance.address, etherAvailable, { from: admin });
+	//  }).then(function(receipt) {
+	//  	console.log(receipt);
+	//  	//assert.equal(receipt.logs.length, 1, 'triggers one event');
+	// 	//assert.equal(receipt.logs[0].event, 'Transfer', 'should be the "Transfer" event');
+	// 	//assert.equal(receipt.logs[0].args._buyer, buyer, 'logs the account that purchased the tokens');
+	// 	//assert.equal(receipt.logs[0].args._amount, numberOfTokens, 'logs the number of tokens purchased');
+
+	//  })
+	// 		return TokenSaleInstance.
+	// 	}).then(function(instance) {	
+	//});
+
 	it('ends token sale', function() {
 		return TestToken.deployed().then(function(instance) {
 			//get access to TokenInstance
